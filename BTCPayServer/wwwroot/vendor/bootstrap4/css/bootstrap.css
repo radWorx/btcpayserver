@@ -4,7 +4,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
- :root {
+:root {
   --blue: #007bff;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -4135,19 +4135,8 @@ input[type="button"].btn-block {
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-  color: #66788A;
-  background-color: #d9f7ef;
-  border-left: 5px solid #329f80;
-  font-weight: 500;
-}
-
-a.nav-link {
-  color: #66788A;
-}
-
-.nav-pills .nav-link.active {
-  color: #12161B;
-  font-weight: 500;
+  color: #fff;
+  background-color: #329f80;
 }
 
 .nav-fill .nav-item {
@@ -4589,10 +4578,11 @@ a.nav-link {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.40);
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  box-shadow: 0px 10px 30px;
 }
 
 .card > hr {
@@ -6393,23 +6383,23 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #329f80 !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
-  background-color: #267861 !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 .bg-secondary {
-  background-color: #2284A6 !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 a.bg-secondary:hover, a.bg-secondary:focus,
 button.bg-secondary:hover,
 button.bg-secondary:focus {
-  background-color: #19627c !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 .bg-success {
