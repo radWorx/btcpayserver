@@ -137,16 +137,23 @@ namespace BTCPayServer.Services.Apps
                 Perks = perks,
                 Enabled = settings.Enabled,
                 DisqusEnabled = settings.DisqusEnabled,
-                SoundsEnabled = settings.SoundsEnabled,
                 DisqusShortname = settings.DisqusShortname,
+
+                SoundsEnabled = settings.SoundsEnabled,
+                Sounds = settings.Sounds,
                 AnimationsEnabled = settings.AnimationsEnabled,
+                AnimationColors = settings.AnimationColors,                
+                BitcoinColorsEnabled = settings.BitcoinColorsEnabled,
+                BitcoinColors = settings.BitcoinColors,
+                BitcoinAudioEnabled = settings.BitcoinAudioEnabled,
+                BitcoinAudio = settings.BitcoinAudio,
+
                 ResetEveryAmount = settings.ResetEveryAmount,
                 ResetEvery = Enum.GetName(typeof(CrowdfundResetEvery), settings.ResetEvery),
                 DisplayPerksRanking = settings.DisplayPerksRanking,
                 PerkCount = perkCount,
                 NeverReset = settings.ResetEvery == CrowdfundResetEvery.Never,
-                Sounds = settings.Sounds,
-                AnimationColors = settings.AnimationColors,
+               
                 CurrencyData = _Currencies.GetCurrencyData(settings.TargetCurrency, true),
                 Info = new ViewCrowdfundViewModel.CrowdfundInfo()
                 {

@@ -25,20 +25,46 @@ namespace BTCPayServer.Services.Apps
         public string EmbeddedCSS { get; set; }
         public string PerksTemplate { get; set; }
         public bool DisqusEnabled { get; set; } = false;
-        public bool SoundsEnabled { get; set; } = true;
         public string DisqusShortname { get; set; }
+
+        public bool SoundsEnabled { get; set; } = true;
+        public bool BitcoinAudioEnabled { get; set; } = true;        
         public bool AnimationsEnabled { get; set; } = true;
+        public bool BitcoinColorsEnabled { get; set; } = true;
+
         public int ResetEveryAmount { get; set; } = 1;
         public CrowdfundResetEvery ResetEvery { get; set; } = CrowdfundResetEvery.Never;
         [Obsolete("Use AppData.TagAllInvoices instead")]
         public bool UseAllStoreInvoices { get; set; }
         public bool DisplayPerksRanking { get; set; }
         public bool SortPerksByPopularity { get; set; }
+
         public string[] AnimationColors { get; set; } = new string[]
         {
             "#FF6138", "#FFBE53", "#2980B9", "#282741"
         };
+        public string[] BitcoinColors { get; set; } = new string[]
+        {
+            "#FF6138", "#FFBE53", "#2980B9", "#282741"
+        };
+        public string[] BitcoinAudio { get; set; } = new string[] {
+             "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/dominating.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/doublekill.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/doublekill2.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/eagleeye.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/firstblood.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/firstblood2.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/firstblood3.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/flawless.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/godlike.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/hattrick.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/headhunter.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/headshot.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/headshot2.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/headshot3.wav",
+            "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/holyshit.wav",
 
+};
         public string[] Sounds { get; set; } = new string[]
         {
             "//github.com/ClaudiuHKS/AdvancedQuakeSounds/raw/master/sound/QuakeSounds/dominating.wav",

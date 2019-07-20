@@ -34,7 +34,7 @@ addLoadEvent(function (ev) {
             return {
                 amount: null,
                 expanded: false
-            }
+            };
         },
         computed: {
             canExpand: function(){
@@ -91,12 +91,15 @@ addLoadEvent(function (ev) {
                 endDiff: "",
                 startDiff: "",
                 active: true,
-                animation: true, 
+
                 sound: true,
-                lastUpdated:"",
+                animation: true,                
+                audio: true,
+                colors: true,
+                lastUpdated: "",
                 loading: false,
                 timeoutState: 0
-            }
+            };
         },
         computed: {
             raisedAmount: function(){
@@ -217,6 +220,8 @@ addLoadEvent(function (ev) {
             var self = this;
             this.sound = this.srvModel.soundsEnabled;
             this.animation = this.srvModel.animationsEnabled;
+            this.audio = this.srvModel.bitcoinaudioEnabled;
+            this.colors = this.srvModel.bitcoincolorsEnabled;
             eventAggregator.$on("invoice-created", function (invoiceId) {
                 btcpay.showInvoice(invoiceId);
                 btcpay.showFrame();
@@ -254,13 +259,19 @@ addLoadEvent(function (ev) {
                     duration: 10000
                 } );
             });
-            eventAggregator.$on("payment-received", function (amount, cryptoCode, type) {
+            eventAggregator.$on("payment-received", function (amount, cryptoCode, type, GetCryptoPaymentData) {
                 var onChain = type.toLowerCase() === "btclike";
                 if(self.sound) {
                     playRandomSound();
                 }
                 if(self.animation) {
                     fireworks();
+                }
+                if (self.audio) {
+                    babc(GetCryptoPaymentData);                  
+                }
+                if (self.colors) {
+                    babc(GetCryptoPaymentData); 
                 }
                 amount = parseFloat(amount).noExponents();
                 if(onChain){

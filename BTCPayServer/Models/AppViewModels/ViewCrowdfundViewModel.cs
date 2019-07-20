@@ -30,11 +30,17 @@ namespace BTCPayServer.Models.AppViewModels
         public string Tagline { get; set; }
         public ViewPointOfSaleViewModel.Item[] Perks { get; set; }
         public bool DisqusEnabled { get; set; }
-        public bool SoundsEnabled { get; set; }
         public string DisqusShortname { get; set; }
+
+        public bool SoundsEnabled { get; set; }
+        public string[] Sounds { get; set; }
         public bool AnimationsEnabled { get; set; }
         public string[] AnimationColors { get; set; }
-        public string[] Sounds { get; set; }
+        public bool BitcoinColorsEnabled { get; set; }
+        public string[] BitcoinColors { get; set; }
+        public bool BitcoinAudioEnabled { get; set; }        
+        public string[] BitcoinAudio { get; set; }
+
         public int ResetEveryAmount { get; set; }
         public bool NeverReset { get; set; }
 
