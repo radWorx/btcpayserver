@@ -194,88 +194,99 @@
                 </template>
             </div>
             <hr />
-            <span>
-                <audio controls src=""></audio><button id="getwallpaper" disabled>Get Wallpaper</button><button id="savewallpaper" disabled>Save Wallpaper</button>
-            </span>
-            <div id="colorpads-container">
-                <div id="colorpads" style="height:516px; width:480px;"></div>
-            </div>
+            <button id="getBABCButton" type="button" class="colorsbtn btn btn-primary "  data-toggle="modal" data-target="#babcModal">BABC Modal</button>
             <hr />
-            <div class="card-footer text-muted d-flex" v-if="srvModel.animationsEnabled || srvModel.soundsEnabled">
+            <!-- The Modal -->
+            <div class="modal" id="babcModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Your Unique Audio and Colors</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <input type="text" id="txidTBModal" />
 
-                <div class="align-self-end pr-4">
-                    Updated {{lastUpdated}}
-                </div><div class="form-check mx-1" v-if="srvModel.soundsEnabled || sound">
-                    <input class="form-check-input" type="checkbox" id="cbSounds" v-model="sound">
-                    <label class="form-check-label" for="cbSounds">
-                        Sounds
-                    </label>
+                        <!-- Modal body -->
+                        <div id="colors-modal-body" class="modal-body" >
+                            <div id="colorpadsModal" style="height: 440px; width: 400px; margin: auto;"></div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <audio controls src=""></audio>
+                            <span>
+                                <button id="getwallpaper" class="btn btn-sm btn-primary w-100 font-weight-normal" disabled>Get Wallpaper</button><button id="savewallpaper" class="btn btn-sm btn-primary w-100 font-weight-normal" disabled>Save Wallpaper</button>
+                            </span>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
                 </div>
+            </div>
+
+
+            <div class="card-footer text-muted d-flex" v-if="srvModel.animationsEnabled || srvModel.soundsEnabled || srvModel.animationsEnabled || srvModel.soundsEnabled ">
+
+                <div class="align-self-end pr-4">Updated {{lastUpdated}}</div>
                 <div class="form-check mx-1" v-if="srvModel.animationsEnabled || animation">
                     <input class="form-check-input" type="checkbox" id="cbAnime" v-model="animation">
                     <label class="form-check-label" for="cbAnime">
                         Animations
                     </label>
                 </div>
-               
-            </div>
-            <div class="card-footer text-muted d-flex" >
-
-                <div class="align-self-end pr-4">
-                    Updated {{lastUpdated}}
-                </div>
-                <div class="form-check mx-1">
-                    <input class="form-check-input" type="checkbox" id="cbAudio" v-model="audio">
-                    <label class="form-check-label" for="cbAudio">
-                        Bitcoin Audio
+                <div class="form-check mx-1" v-if="srvModel.soundsEnabled|| sound">
+                    <input class="form-check-input" type="checkbox" id="cbSounds" v-model="sound">
+                    <label class="form-check-label" for="cbSounds">
+                        Sounds
                     </label>
-                </div>
-                <div class="form-check mx-1" >
+                </div> 
+                <div class="form-check mx-1" v-if="srvModel.animationsEnabled || colors">
                     <input class="form-check-input" type="checkbox" id="cbColors" v-model="colors">
                     <label class="form-check-label" for="cbColors">
                         Bitcoin Colors
                     </label>
                 </div>
+                <div class="form-check mx-1" v-if="srvModel.soundsEnabled || audio">
+                    <input class="form-check-input" type="checkbox" id="cbAudio" v-model="audio">
+                    <label class="form-check-label" for="cbAudio">
+                        Bitcoin Audio
+                    </label>
+                </div>
             </div>
-          
         </div>
-        <b-modal title="Contribute" v-model="contributeModalOpen" size="lg" ok-only="true" ok-variant="secondary" ok-title="Close" ref="modalContribute">
-            <contribute v-if="contributeModalOpen"
-                        :target-currency="srvModel.targetCurrency"
-                        :active="active"
-                        :perks="srvModel.perks"
-                        :loading="loading"
-                        :in-modal="true">
-            </contribute>
-        </b-modal>
-
     </div>
+    <b-modal title="Contribute" v-model="contributeModalOpen" size="lg" ok-only="true" ok-variant="secondary" ok-title="Close" ref="modalContribute">
+        <contribute v-if="contributeModalOpen"
+                    :target-currency="srvModel.targetCurrency"
+                    :active="active"
+                    :perks="srvModel.perks"
+                    :loading="loading"
+                    :in-modal="true">
+        </contribute>
+    </b-modal>
 
-    <script type="text/x-template" id="perks-template">
-        <div class="perks-container">
-            <perk v-if="!perks || perks.length ===0"
-                  :perk="{title: 'Donate Custom Amount', price: { value: null}, custom: true}"
-                  :target-currency="targetCurrency"
-                  :active="active"
-                  :loading="loading"
-                  :in-modal="inModal">
-            </perk>
-            <perk v-for="(perk, index) in perks" :perk="perk" :key="perk.id"
-                  :target-currency="targetCurrency"
-                  :active="active"
-                  :display-perks-ranking="displayPerksRanking"
-                  :index="index"
-                  :loading="loading"
-                  :in-modal="inModal">
-            </perk>
-        </div>
-    </script>
+</div>
 
-    <script type="text/x-template" id="perk-template">
-        <div class="card mb-4 perk" v-bind:class="{ 'expanded': expanded, 'unexpanded': !expanded }" v-on:click="expand" :id="perk.id">
-            <span v-if="displayPerksRanking && perk.sold"
-                  class="btn btn-sm rounded-circle px-0 perk-badge"
-                  v-bind:class="{ 'btn-primary': index==0, 'btn-secondary': index!=0}">#{{index+1}}</span>
+<script type="text/x-template" id="perks-template">
+    <div class="perks-container">
+        <perk v-if="!perks || perks.length ===0"
+              :perk="{title: 'Donate Custom Amount', price: { value: null}, custom: true}"
+              :target-currency="targetCurrency"
+              :active="active"
+              :loading="loading"
+              :in-modal="inModal">
+        </perk>
+        <perk v-for="(perk, index) in perks" :perk="perk" :key="perk.id"
+              :target-currency="targetCurrency"
+              :active="active"
+              :display-perks-ranking="displayPerksRanking"
+              :index="index"
+              :loading="loading"
+              :in-modal="inModal">
+        </perk>
+    </div>
+</script>
 
 <script type="text/x-template" id="perk-template"> 
 <div class="card perk"  v-bind:class="{ 'expanded': expanded, 'unexpanded': !expanded, 'mb-4':!inModal }" v-on:click="expand" :id="perk.id">
@@ -284,76 +295,80 @@
     v-bind:class="{ 'btn-primary': index==0, 'btn-secondary': index!=0}">#{{index+1}}</span> 
          
 
-            <div class="perk-zoom " v-if="canExpand">
-                <div class="perk-zoom-bg bg-primary"> </div>
-                <div class="perk-zoom-text w-100 text-center text-white font-weight-bold">
-                    Select this contribution perk
+
+        <div class="perk-zoom " v-if="canExpand">
+            <div class="perk-zoom-bg bg-primary"> </div>
+            <div class="perk-zoom-text w-100 text-center text-white font-weight-bold">
+                Select this contribution perk
+            </div>
+        </div>
+        <form v-on:submit='onContributeFormSubmit'>
+            <input type="hidden" :value="perk.id" id="choiceKey" />
+            <img v-if="perk.image && perk.image != 'null' " class="card-img-top" :src="perk.image" />
+            <div class="card-body">
+                <div class="card-title d-flex justify-content-between">
+                    <span class="h5">{{perk.title? perk.title : perk.id}} </span>
+                    <span class="text-muted">
+                        <template v-if="perk.price.value">
+                            {{perk.price.value.noExponents()}}
+                            {{targetCurrency}}
+                            <template v-if="perk.custom">
+                                or more
+                            </template>
+                        </template>
+                        <template v-else-if="!perk.price.value && perk.custom">
+                            Any amount
+                        </template>
+
+                    </span>
+                </div>
+                <p class="card-text overflow-hidden" v-if="perk.description" v-html="perk.description"></p>
+
+                <div class="input-group" style="max-width: 500px;" v-if="expanded" :id="'perk-form'+ perk.id">
+                    <input :disabled="!active"
+                           :readonly="!perk.custom"
+                           class="form-control"
+                           type="number"
+                           v-model="amount"
+                           :min="perk.price.value"
+                           step="any"
+                           placeholder="Contribution Amount"
+                           required>
+                    <div class="input-group-append">
+                        <span class='input-group-text'>{{targetCurrency}}</span>
+                        <button class="btn btn-primary"
+                                v-bind:class="{ 'btn-disabled': loading}"
+                                :disabled="!active || loading"
+                                type="submit">
+                            <div v-if="loading" class="spinner-grow spinner-grow-sm" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            Continue
+                        </button>
+                    </div>
                 </div>
             </div>
-            <form v-on:submit='onContributeFormSubmit'>
-                <input type="hidden" :value="perk.id" id="choiceKey" />
-                <img v-if="perk.image && perk.image != 'null' " class="card-img-top" :src="perk.image" />
-                <div class="card-body">
-                    <div class="card-title d-flex justify-content-between">
-                        <span class="h5">{{perk.title? perk.title : perk.id}} </span>
-                        <span class="text-muted">
-                            <template v-if="perk.price.value">
-                                {{perk.price.value.noExponents()}}
-                                {{targetCurrency}}
-                                <template v-if="perk.custom">
-                                    or more
-                                </template>
-                            </template>
-                            <template v-else-if="!perk.price.value && perk.custom">
-                                Any amount
-                            </template>
-
-                        </span>
-                    </div>
-                    <p class="card-text overflow-hidden" v-if="perk.description" v-html="perk.description"></p>
-
-                    <div class="input-group" style="max-width: 500px;" v-if="expanded" :id="'perk-form'+ perk.id">
-                        <input :disabled="!active"
-                               :readonly="!perk.custom"
-                               class="form-control"
-                               type="number"
-                               v-model="amount"
-                               :min="perk.price.value"
-                               step="any"
-                               placeholder="Contribution Amount"
-                               required>
-                        <div class="input-group-append">
-                            <span class='input-group-text'>{{targetCurrency}}</span>
-                            <button class="btn btn-primary"
-                                    v-bind:class="{ 'btn-disabled': loading}"
-                                    :disabled="!active || loading"
-                                    type="submit">
-                                <div v-if="loading" class="spinner-grow spinner-grow-sm" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                Continue
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-between" v-if="perk.sold">
-                    <span></span>
-                    <span x>{{perk.sold}} Contributor{{perk.sold > 1? "s": ""}}</span>
-                </div>
-            </form>
-        </div>
-    </script>
+            <div class="card-footer d-flex justify-content-between" v-if="perk.sold">
+                <span></span>
+                <span x>{{perk.sold}} Contributor{{perk.sold > 1? "s": ""}}</span>
+            </div>
+        </form>
+    </div>
+</script>
 
 
-    <script type="text/x-template" id="contribute-template">
-        <div>
-            <h3 v-if="!inModal" class="mb-3">Contribute</h3>
-            <perks :perks="perks"
-                   :loading="loading"
-                   :in-modal="inModal"
-                   :display-perks-ranking="displayPerksRanking"
-                   :target-currency="targetCurrency"
-                   :active="active">
-            </perks>
-        </div>
-    </script>
+<script type="text/x-template" id="contribute-template">
+    <div>
+        <h3 v-if="!inModal" class="mb-3">Contribute</h3>
+        <perks :perks="perks"
+               :loading="loading"
+               :in-modal="inModal"
+               :display-perks-ranking="displayPerksRanking"
+               :target-currency="targetCurrency"
+               :active="active">
+        </perks>
+    </div>
+</script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

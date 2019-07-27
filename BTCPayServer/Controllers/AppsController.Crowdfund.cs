@@ -51,11 +51,13 @@ namespace BTCPayServer.Controllers
                 Tagline = settings.Tagline,
                 PerksTemplate = settings.PerksTemplate,
                 DisqusEnabled = settings.DisqusEnabled,
-                SoundsEnabled = settings.SoundsEnabled,
-                BitcoinAudioEnabled = settings.BitcoinAudioEnabled,
                 DisqusShortname = settings.DisqusShortname,
+
+                SoundsEnabled = settings.SoundsEnabled,
+                BitcoinAudioEnabled = settings.BitcoinAudioEnabled,               
                 AnimationsEnabled = settings.AnimationsEnabled,
                 BitcoinColorsEnabled = settings.BitcoinColorsEnabled,
+
                 ResetEveryAmount = settings.ResetEveryAmount,
                 ResetEvery = Enum.GetName(typeof(CrowdfundResetEvery), settings.ResetEvery),
                 UseAllStoreInvoices = app.TagAllInvoices,
