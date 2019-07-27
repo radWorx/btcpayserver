@@ -228,7 +228,7 @@
                         <span asp-validation-for="DisqusShortname" class="text-danger"></span>
                     </div>
                     <input type="hidden" asp-for="NotificationEmailWarning" />
-                    <div class="form-group">
+                    <div class="form-group fixed-bottom">
                         <input type="submit" class="btn btn-primary" value="Save Settings" id="SaveSettings" />
                         <a class="btn btn-secondary" target="_blank" asp-action="ListInvoices" asp-controller="Invoice" asp-route-searchterm="@Model.SearchTerm">Invoices</a>
                         <a class="btn btn-secondary" target="_blank" asp-action="ViewCrowdfund" asp-controller="AppsPublic" asp-route-appId="@Model.AppId" id="ViewApp">View App</a>

@@ -7,6 +7,8 @@
     var recorder = new MediaRecorder(dest.stream);
     var gw = document.getElementById("getwallpaper");
     var sw = document.getElementById("savewallpaper");
+    //var bm = document.getElementById("txidTBModal");
+    //bm.value = GetCryptoPaymentData;
     gw.disabled = false;
     sw.disabled = false;
     synth.connect(dest);
@@ -41,6 +43,9 @@
         }
         $(".card").css("box-shadow", "0px 10px 20px" + "#" + s + n);
         $("body").css("background-color", "#" + s + n);
+        $(".modal-body").css("background-color", "#" + s + n);
+        $(".modal-content").css("box-shadow", "0px 10px 20px" + "#" + s + n);
+
     }
     function playseq() {
         var n = nextslice();
@@ -65,17 +70,20 @@
         console.log("Your audio file" + "," + blob.name);
     };
     playseq();
+    
     // BA --------------------------------------------------------------------------
     // BC --------------------------------------------------------------------------
     gw.addEventListener('click', makeWallpaper);
+    gw.addEventListener('click', makeWallpaperModal);
     sw.addEventListener('click', saveWallpaper);
+
     function makeWallpaper() {
         var payid = GetCryptoPaymentData;
         var cstart = 0;
         var cend = cstart + 6;
         var ht = 60;
         var wt = 60;
-        for (let i = 0; i < 64; i++) {            
+        for (let i = 0; i < 64; i++) {
             var cp = document.getElementById("colorpads");
             var canvas = document.createElement("canvas");
             var color = payid.slice(cstart, cend);
@@ -91,7 +99,33 @@
             cstart++;
             cend++;
         }
-      
+
+    }
+    function makeWallpaperModal() {
+        $("canvas").remove();
+        var payid = GetCryptoPaymentData;
+        var cstart = 0;
+        var cend = cstart + 6;
+        var ht = 50;
+        var wt = 50;
+        for (let i = 0; i < 64; i++) {
+            var cp = document.getElementById("colorpadsModal");
+            var canvas = document.createElement("canvas");
+            var color = payid.slice(cstart, cend);
+            var ctx = canvas.getContext("2d");
+            canvas.addEventListener('mouseover', playcolor);
+            canvas.addEventListener('click', playcolor);
+            canvas.id = color;
+            canvas.width = wt;
+            canvas.height = ht;
+            ctx.fillStyle = "#" + color;
+            ctx.fillRect(0, 0, wt, ht);
+            canvas.innerHTML = color;
+            cp.appendChild(canvas);
+            cstart++;
+            cend++;
+        }
+
     }
     function playcolor() {
         var colorstart = 0;
@@ -101,6 +135,7 @@
         try {
             var synth = new Tone.Synth().toMaster();
             synth.triggerAttackRelease(s, "4n");
+            $(".colorpadsModal").css("background-color", "#" + s);
         }
         catch (err) {
             this.height = 0;
@@ -110,13 +145,13 @@
     }
 
     function saveWallpaper() {
-        var element = document.getElementById("colorpads-container");
-       
 
+        var element = document.getElementById("colorpadsModal");
         html2canvas(element, { backgroundColor: "null", imageTimeout: "0" }).then(canvas => {
-            element.appendChild(canvas);            
+            $("canvas").remove();
+            element.appendChild(canvas);
         });
     }
 
-        // BC --------------------------------------------------------------------------
+    // BC --------------------------------------------------------------------------
 }

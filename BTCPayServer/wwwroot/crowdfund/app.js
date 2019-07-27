@@ -268,10 +268,10 @@ addLoadEvent(function (ev) {
                     fireworks();
                 }
                 if (self.audio) {
-                    babc(GetCryptoPaymentData);                  
+                    //babc(GetCryptoPaymentData);                  
                 }
                 if (self.colors) {
-                    babc(GetCryptoPaymentData); 
+                    //babc(GetCryptoPaymentData); 
                 }
                 amount = parseFloat(amount).noExponents();
                 if(onChain){
