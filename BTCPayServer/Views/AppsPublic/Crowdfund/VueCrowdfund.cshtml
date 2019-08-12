@@ -241,6 +241,18 @@
                     <label class="form-check-label" for="cbSounds">
                         Sounds
                     </label>
+                </div> 
+                <div class="form-check mx-1" v-if="srvModel.animationsEnabled || colors">
+                    <input class="form-check-input" type="checkbox" id="cbColors" v-model="colors">
+                    <label class="form-check-label" for="cbColors">
+                        Bitcoin Colors
+                    </label>
+                </div>
+                <div class="form-check mx-1" v-if="srvModel.soundsEnabled || audio">
+                    <input class="form-check-input" type="checkbox" id="cbAudio" v-model="audio">
+                    <label class="form-check-label" for="cbAudio">
+                        Bitcoin Audio
+                    </label>
                 </div>
             </div>
         </div>

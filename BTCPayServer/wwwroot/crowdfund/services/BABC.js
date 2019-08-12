@@ -67,6 +67,7 @@
         audio.src = URL.createObjectURL(blob);
         blob.name = GetCryptoPaymentData;
 
+        console.log("Your audio file" + "," + blob.name);
     };
     playseq();
     
