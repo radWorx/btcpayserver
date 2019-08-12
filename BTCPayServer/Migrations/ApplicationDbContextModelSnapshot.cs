@@ -399,6 +399,33 @@ namespace BTCPayServer.Migrations
                     b.ToTable("UserStore");
                 });
 
+            modelBuilder.Entity("BTCPayServer.Data.WalletData", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("Blob");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wallets");
+                });
+
+            modelBuilder.Entity("BTCPayServer.Data.WalletTransactionData", b =>
+                {
+                    b.Property<string>("WalletDataId");
+
+                    b.Property<string>("TransactionId");
+
+                    b.Property<byte[]>("Blob");
+
+                    b.Property<string>("Labels");
+
+                    b.HasKey("WalletDataId", "TransactionId");
+
+                    b.ToTable("WalletTransactions");
+                });
+
             modelBuilder.Entity("BTCPayServer.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -773,6 +800,14 @@ namespace BTCPayServer.Migrations
                     b.HasOne("BTCPayServer.Data.StoreData", "StoreData")
                         .WithMany("UserStores")
                         .HasForeignKey("StoreDataId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BTCPayServer.Data.WalletTransactionData", b =>
+                {
+                    b.HasOne("BTCPayServer.Data.WalletData", "WalletData")
+                        .WithMany("WalletTransactions")
+                        .HasForeignKey("WalletDataId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

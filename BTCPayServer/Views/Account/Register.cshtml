@@ -4,58 +4,87 @@
 }
 
 <section>
-    <div>
-        <div class="modal-dialog modal-login">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Create account</h4>
+    <div class="">
+        <div class="row align-items-center my-auto">
+            <div class="col-1"></div>
+
+            <div class="col-5 text-dark">
+
+                <div class="row">
+                    <div class="text-left header-content-inner text-white">
+                        <h2 style="text-transform: uppercase; color: black !important">Create your BTCPay Server Account</h2>
+                        <hr align="left">
+                        <p class="text-left justify-content-lg-center" style="color: black !important">
+                            The first created account on a newly-created BTCPay Server is automatically admin. You can register your admin account even if your node is not fully synced.
+                            To register, visit your BTCPay Server URL and click on the "Register" in the upper menu. Input your password and e-mail and click "Register" button. You will automatically be logged in. If you're using a third-party host, you may be asked to verify your e-mail address to register.
+                            To allow other users to access your server, you need to enable registration in Server Settings > Policies. Server admins, should also configure SMTP settings to allow password reset via the e-mail for themselves and other users.
+                        </p>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" asp-route-logon="@ViewData["Logon"]" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label for="Email" class="input-group-text"><span class="input-group-addon fa fa-user"></span></label>
+                <div class="row justify-content-start">
+                    <h5 class="text-left" style="text-transform: uppercase;">Our Supporters</h5>
+                </div>
+                <div class="row justify-content-start">
+                    <img class="col-s-1 mx-3" src="~/img/supporter.png" height="45"><img class="col-s-1 mx-3" src="~/img/supporter.png" height="45"><img class="col-s-1 mx-3" src="~/img/supporter.png" height="45"><img class="col-s-1 mx-3" src="~/img/supporter.png" height="45"><img class="col-s-1 mx-3" src="~/img/supporter.png" height="45">
+
+                </div>
+
+
+
+            </div>
+            <div class="col-6 align-self-end">
+
+                <div class="col modal-dialog modal-login">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Create account</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form asp-route-returnUrl="@ViewData["ReturnUrl"]" asp-route-logon="@ViewData["Logon"]" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label for="Email" class="input-group-text"><span class="input-group-addon fa fa-user"></span></label>
+                                        </div>
+                                        <input asp-for="Email" class="form-control" placeholder="Email" required="required" />
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
-                                <input asp-for="Email" class="form-control" placeholder="Email" required="required"/>
-                            </div>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label for="Password" class="input-group-text"><span class="input-group-addon fa fa-lock"></span></label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label for="Password" class="input-group-text"><span class="input-group-addon fa fa-lock"></span></label>
+                                        </div>
+                                        <input asp-for="Password" class="form-control" placeholder="Password" required="required" />
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
-                                <input asp-for="Password" class="form-control" placeholder="Password" required="required"/>
-                            </div>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label for="ConfirmPassword" class="input-group-text"><span class="input-group-addon fa fa-lock"></span></label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label for="ConfirmPassword" class="input-group-text"><span class="input-group-addon fa fa-lock"></span></label>
+                                        </div>
+                                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Repeat password" required="required" />
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </div>
-                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Repeat password" required="required"/>
-                            </div>
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                @if (ViewData["AllowIsAdmin"] is true)
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="IsAdmin"></label>
+                                        <input asp-for="IsAdmin" type="checkbox" class="form-check-inline" />
+                                        <span asp-validation-for="IsAdmin" class="text-danger"></span>
+                                    </div>
+                                }
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-dark btn-block btn-lg" id="RegisterButton">Create account</button>
+                                </div>
+                            </form>
                         </div>
-                        @if (ViewData["AllowIsAdmin"] is true)
-                        {
-                            <div class="form-group">
-                                <label asp-for="IsAdmin"></label>
-                                <input asp-for="IsAdmin" type="checkbox" class="form-check-inline"/>
-                                <span asp-validation-for="IsAdmin" class="text-danger"></span>
-                            </div>
-                        }
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block btn-lg" id="RegisterButton">Create account</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 </section>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

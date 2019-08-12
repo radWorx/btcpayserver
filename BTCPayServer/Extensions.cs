@@ -34,11 +34,35 @@ using BTCPayServer.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NBXplorer.DerivationStrategy;
 using System.Net;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BTCPayServer
 {
     public static class Extensions
     {
+        public static string Truncate(this string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+        }
+        public static IServiceCollection AddStartupTask<T>(this IServiceCollection services)
+            where T : class, IStartupTask
+            => services.AddTransient<IStartupTask, T>();
+        public static async Task StartWithTasksAsync(this IWebHost webHost, CancellationToken cancellationToken = default)
+        {
+            // Load all tasks from DI
+            var startupTasks = webHost.Services.GetServices<IStartupTask>();
+
+            // Execute all the tasks
+            foreach (var startupTask in startupTasks)
+            {
+                await startupTask.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+            }
+
+            // Start the tasks as normal
+            await webHost.StartAsync(cancellationToken).ConfigureAwait(false);
+        }
         public static string PrettyPrint(this TimeSpan expiration)
         {
             StringBuilder builder = new StringBuilder();

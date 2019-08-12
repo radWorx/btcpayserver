@@ -78,6 +78,7 @@ namespace BTCPayServer.Hosting
             services.TryAddSingleton<InvoicePaymentNotification>();
             services.TryAddSingleton<BTCPayServerOptions>(o =>
                 o.GetRequiredService<IOptions<BTCPayServerOptions>>().Value);
+            services.AddStartupTask<MigrationStartupTask>();
             services.TryAddSingleton<InvoiceRepository>(o =>
             {
                 var opts = o.GetRequiredService<BTCPayServerOptions>();
@@ -89,6 +90,7 @@ namespace BTCPayServer.Hosting
             });
             services.AddSingleton<BTCPayServerEnvironment>();
             services.TryAddSingleton<TokenRepository>();
+            services.TryAddSingleton<WalletRepository>();
             services.TryAddSingleton<EventAggregator>();
             services.TryAddSingleton<PaymentRequestService>();
             services.TryAddSingleton<U2FService>();
@@ -124,6 +126,7 @@ namespace BTCPayServer.Hosting
             });
 
             services.TryAddSingleton<AppService>();
+            services.TryAddTransient<Safe>();
             services.TryAddSingleton<Ganss.XSS.HtmlSanitizer>(o =>
             {
 
@@ -184,7 +187,6 @@ namespace BTCPayServer.Hosting
                 o.ModelMetadataDetailsProviders.Add(new SuppressChildValidationMetadataProvider(typeof(DerivationStrategyBase)));
             });
             services.AddSingleton<IHostedService, CssThemeManagerHostedService>();
-            services.AddSingleton<IHostedService, MigratorHostedService>();
 
             services.AddSingleton<IHostedService, HostedServices.CheckConfigurationHostedService>();
             
@@ -206,6 +208,7 @@ namespace BTCPayServer.Hosting
             services.AddSingleton<IHostedService, RatesHostedService>();
             services.AddSingleton<IHostedService, BackgroundJobSchedulerHostedService>();
             services.AddSingleton<IHostedService, AppHubStreamer>();
+            services.AddSingleton<IHostedService, DynamicDnsHostedService>();
             services.AddSingleton<IHostedService, TorServicesHostedService>();
             services.AddSingleton<IHostedService, PaymentRequestStreamer>();
             services.AddSingleton<IBackgroundJobClient, BackgroundJobClient>();
@@ -316,36 +319,8 @@ namespace BTCPayServer.Hosting
 
         public static IApplicationBuilder UsePayServer(this IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                //Wait the DB is ready
-                Retry(() =>
-                {
-                    scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-                });
-            }
-
             app.UseMiddleware<BTCPayMiddleware>();
             return app; 
-        }
-
-        static void Retry(Action act)
-        {
-            CancellationTokenSource cts = new CancellationTokenSource(1000);
-            while (true)
-            {
-                try
-                {
-                    act();
-                    return;
-                }
-                // Starting up
-                catch (PostgresException ex) when (ex.SqlState == "57P03") { Thread.Sleep(1000); }
-                catch when (!cts.IsCancellationRequested)
-                {
-                    Thread.Sleep(100);
-                }
-            }
         }
     }
 
