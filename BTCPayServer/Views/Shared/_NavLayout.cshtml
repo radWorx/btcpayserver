@@ -1,36 +1,38 @@
 ﻿@{
-Layout = "/Views/Shared/_Layout.cshtml";
-ViewBag.ShowMenu = ViewBag.ShowMenu ?? true;
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.ShowMenu = ViewBag.ShowMenu ?? true;
 }
+@inject BTCPayServer.Services.BTCPayServerEnvironment env
 
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h4 class="section-heading">@ViewData["MainTitle"]: @ViewData["Title"]</h4>
+<section >
+    <div class="row">
+        <div class="col-2 ml-2" >
+            <div class="">              
+                <h4 class="section-heading">@ViewData["MainTitle"]</h4>
+                <h6 class="section-heading">@ViewData["Title"]</h6>
                 <hr class="primary ml-0">
             </div>
+            <div>
+                @if (ViewBag.ShowMenu)
+                {
+                    @await Html.PartialAsync("_Nav")
+                }
+            </div>
+
         </div>
 
-        <div>
-            <div class="row">
-                <div class="col-md-3">
-                    @if (ViewBag.ShowMenu)
-                    {
-                    @await Html.PartialAsync("_Nav")
-                    }
-                </div>
-                <div class="col-md-9">
-                    @RenderBody()
-                </div>
-            </div>
+
+        <div class="col-8">
+            @RenderBody()
         </div>
     </div>
+
+
 </section>
 @section HeadScripts {
-@RenderSection("HeadScripts", required: false)
+    @RenderSection("HeadScripts", required: false)
 }
 
 @section Scripts {
-@RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 }
