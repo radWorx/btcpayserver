@@ -5,12 +5,12 @@
     var actx = Tone.context;
     var dest = actx.createMediaStreamDestination();
     var recorder = new MediaRecorder(dest.stream);
+    var pp = document.getElementById("playpads");
     var gw = document.getElementById("getwallpaper");
-    var sw = document.getElementById("savewallpaper");
-    //var bm = document.getElementById("txidTBModal");
-    //bm.value = GetCryptoPaymentData;
+    var txid = document.getElementById("txidTBModal");
+    txid.value = GetCryptoPaymentData;
+    pp.disabled = false;
     gw.disabled = false;
-    sw.disabled = false;
     synth.connect(dest);
     synth.toMaster();
     recorder.start();
@@ -73,10 +73,10 @@
     
     // BA --------------------------------------------------------------------------
     // BC --------------------------------------------------------------------------
-    gw.addEventListener('click', makeWallpaper);
-    gw.addEventListener('click', makeWallpaperModal);
-    sw.addEventListener('click', saveWallpaper);
-
+    pp.addEventListener('click', makeWallpaper);
+    pp.addEventListener('click', makeWallpaperModal);
+    gw.addEventListener('click', getWallpaper);
+    $("canvas").remove();
     function makeWallpaper() {
         var payid = GetCryptoPaymentData;
         var cstart = 0;
@@ -144,13 +144,15 @@
         }
     }
 
-    function saveWallpaper() {
+    function getWallpaper() {
 
         var element = document.getElementById("colorpadsModal");
+        
         html2canvas(element, { backgroundColor: "null", imageTimeout: "0" }).then(canvas => {
             $("canvas").remove();
-            element.appendChild(canvas);
+            element.appendChild(canvas);           
         });
+        
     }
 
     // BC --------------------------------------------------------------------------

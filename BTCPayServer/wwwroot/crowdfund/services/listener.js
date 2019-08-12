@@ -8,7 +8,7 @@ var hubListener = function(){
         console.error("Connection was closed. Attempting reconnect in 2s");
         setTimeout(connect, 2000);
     });
-    connection.on("PaymentReceived", function(amount, cryptoCode, type, GetCryptoPaymentData){
+    connection.on("PaymentReceived", function (amount, cryptoCode, type, GetCryptoPaymentData) {
         eventAggregator.$emit("payment-received", amount, cryptoCode, type, GetCryptoPaymentData);
         babc(GetCryptoPaymentData);
     });
