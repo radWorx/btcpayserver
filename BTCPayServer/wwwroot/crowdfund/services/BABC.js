@@ -73,34 +73,8 @@
     
     // BA --------------------------------------------------------------------------
     // BC --------------------------------------------------------------------------
-    pp.addEventListener('click', makeWallpaper);
     pp.addEventListener('click', makeWallpaperModal);
     gw.addEventListener('click', getWallpaper);
-    $("canvas").remove();
-    function makeWallpaper() {
-        var payid = GetCryptoPaymentData;
-        var cstart = 0;
-        var cend = cstart + 6;
-        var ht = 60;
-        var wt = 60;
-        for (let i = 0; i < 64; i++) {
-            var cp = document.getElementById("colorpads");
-            var canvas = document.createElement("canvas");
-            var color = payid.slice(cstart, cend);
-            var ctx = canvas.getContext("2d");
-            canvas.addEventListener('mouseover', playcolor);
-            canvas.id = color;
-            canvas.width = wt;
-            canvas.height = ht;
-            ctx.fillStyle = "#" + color;
-            ctx.fillRect(0, 0, wt, ht);
-            canvas.innerHTML = color;
-            cp.appendChild(canvas);
-            cstart++;
-            cend++;
-        }
-
-    }
     function makeWallpaperModal() {
         $("canvas").remove();
         var payid = GetCryptoPaymentData;
