@@ -123,7 +123,7 @@
         var element = document.getElementById("colorpadsModal");
         
         html2canvas(element, { backgroundColor: "null", imageTimeout: "0" }).then(canvas => {
-            $("canvas").remove();
+            //$("canvas").remove();
             element.appendChild(canvas);           
         });
         
