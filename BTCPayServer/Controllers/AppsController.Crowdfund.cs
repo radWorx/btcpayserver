@@ -51,9 +51,13 @@ namespace BTCPayServer.Controllers
                 Tagline = settings.Tagline,
                 PerksTemplate = settings.PerksTemplate,
                 DisqusEnabled = settings.DisqusEnabled,
-                SoundsEnabled = settings.SoundsEnabled,
                 DisqusShortname = settings.DisqusShortname,
+
+                SoundsEnabled = settings.SoundsEnabled,
+                BitcoinAudioEnabled = settings.BitcoinAudioEnabled,               
                 AnimationsEnabled = settings.AnimationsEnabled,
+                BitcoinColorsEnabled = settings.BitcoinColorsEnabled,
+
                 ResetEveryAmount = settings.ResetEveryAmount,
                 ResetEvery = Enum.GetName(typeof(CrowdfundResetEvery), settings.ResetEvery),
                 UseAllStoreInvoices = app.TagAllInvoices,
@@ -62,7 +66,9 @@ namespace BTCPayServer.Controllers
                 DisplayPerksRanking = settings.DisplayPerksRanking,
                 SortPerksByPopularity = settings.SortPerksByPopularity,
                 Sounds                = string.Join(Environment.NewLine, settings.Sounds),
-                AnimationColors                = string.Join(Environment.NewLine, settings.AnimationColors)
+                AnimationColors                = string.Join(Environment.NewLine, settings.AnimationColors),
+                BitcoinAudio = string.Join(Environment.NewLine, settings.BitcoinAudio),
+                BitcoinColors = string.Join(Environment.NewLine, settings.BitcoinColors)
             };
             return View(vm);
         }
@@ -105,6 +111,14 @@ namespace BTCPayServer.Controllers
             {
                 ModelState.AddModelError(nameof(vm.Sounds), "You must have at least one sound if you enable sounds");
             }
+            var parsedBitcoinAudio = vm.BitcoinAudio.Split(
+                new[] {"\r\n", "\r", "\n"},
+                StringSplitOptions.None
+            ).Select(s => s.Trim()).ToArray();
+            if (vm.BitcoinAudioEnabled && !parsedBitcoinAudio.Any())
+            {
+                ModelState.AddModelError(nameof(vm.BitcoinAudio), "You must have at least one sound if you enable sounds");
+            }
             
             var parsedAnimationColors = vm.AnimationColors.Split(
                 new[] { "\r\n", "\r", "\n" },
@@ -114,11 +128,21 @@ namespace BTCPayServer.Controllers
             {
                 ModelState.AddModelError(nameof(vm.AnimationColors), "You must have at least one animation color if you enable animations");
             }
+            var parsedBitcoinColors = vm.BitcoinColors.Split(
+                new[] { "\r\n", "\r", "\n" },
+                StringSplitOptions.None
+            ).Select(s => s.Trim()).ToArray();
+            if (vm.BitcoinColorsEnabled && !parsedBitcoinColors.Any())
+            {
+                ModelState.AddModelError(nameof(vm.BitcoinColors), "You must have at least one animation color if you enable animations");
+            }
             
             if (!ModelState.IsValid)
             {
                 return View(vm);
             }
+
+
             
             
             var app = await GetOwnedApp(appId, AppType.Crowdfund);
@@ -143,15 +167,23 @@ namespace BTCPayServer.Controllers
                 Tagline = vm.Tagline,
                 PerksTemplate = vm.PerksTemplate,
                 DisqusEnabled = vm.DisqusEnabled,
-                SoundsEnabled = vm.SoundsEnabled,
                 DisqusShortname = vm.DisqusShortname,
+
+                SoundsEnabled = vm.SoundsEnabled,
+                BitcoinAudioEnabled = vm.BitcoinAudioEnabled,
                 AnimationsEnabled = vm.AnimationsEnabled,
+                BitcoinColorsEnabled = vm.BitcoinColorsEnabled,
+
                 ResetEveryAmount = vm.ResetEveryAmount,
                 ResetEvery = Enum.Parse<CrowdfundResetEvery>(vm.ResetEvery),
                 DisplayPerksRanking = vm.DisplayPerksRanking,
                 SortPerksByPopularity = vm.SortPerksByPopularity,
+
                 Sounds = parsedSounds,
-                AnimationColors = parsedAnimationColors
+                BitcoinAudio = parsedBitcoinAudio,
+                AnimationColors = parsedAnimationColors,
+                BitcoinColors = parsedBitcoinColors
+                
             };
 
             app.TagAllInvoices = vm.UseAllStoreInvoices;

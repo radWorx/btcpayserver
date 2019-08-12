@@ -31,12 +31,18 @@ namespace BTCPayServer.Models.AppViewModels
         public bool Enabled { get; set; } = false;
 
         [Required]
-        [Display(Name = "Enable background animations on new payments")]
-        public bool AnimationsEnabled { get; set; } = true;
-
-        [Required]
         [Display(Name = "Enable sounds on new payments")]
         public bool SoundsEnabled { get; set; } = true;
+        [Required]
+        [Display(Name = "Enable background animations on new payments")]
+        public bool AnimationsEnabled { get; set; } = true;
+        [Required]
+        [Display(Name = "Enable Bitcoin Audio on new payments")]
+        public bool BitcoinAudioEnabled { get; set; } = true;
+        [Required]
+        [Display(Name = "Enable Bitcoin Colors on new payments")]
+        public bool BitcoinColorsEnabled { get; set; } = true;  
+        
 
         [Required]
         [Display(Name = "Enable Disqus Comments")]
@@ -93,6 +99,11 @@ namespace BTCPayServer.Models.AppViewModels
         public string Sounds{ get; set; }
         [Display(Name = "Colors to rotate between with animation when a payment is made. First color is the default background. One color per line. Can be any valid css color value.")]
         public string AnimationColors{ get; set; }
+        //Fix wording
+        [Display(Name = "Unique tones to notify donors of transaction. Every transaction is unique.")]
+        public string BitcoinAudio{ get; set; }
+        [Display(Name = "Background colors change as per unique transaction.")]
+        public string BitcoinColors{ get; set; }
 
         public bool NotificationEmailWarning { get; set; }
     }

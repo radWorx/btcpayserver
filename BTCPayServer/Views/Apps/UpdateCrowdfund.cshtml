@@ -198,6 +198,26 @@
                         <span asp-validation-for="AnimationColors" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="BitcoinAudioEnabled"></label>
+                        <input asp-for="BitcoinAudioEnabled" type="checkbox" class="form-check" />
+                        <span asp-validation-for="BitcoinAudioEnabled" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BitcoinAudio"></label>
+                        <textarea asp-for="BitcoinAudio" class="form-control"></textarea>
+                        <span asp-validation-for="BitcoinAudio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BitcoinColorsEnabled"></label>
+                        <input asp-for="BitcoinColorsEnabled" type="checkbox" class="form-check" />
+                        <span asp-validation-for="BitcoinColorsEnabled" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BitcoinColors"></label>
+                        <textarea asp-for="BitcoinColors" class="form-control"></textarea>
+                        <span asp-validation-for="BitcoinColors" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="DisqusEnabled"></label>
                         <input asp-for="DisqusEnabled" type="checkbox" class="form-check" />
                         <span asp-validation-for="DisqusEnabled" class="text-danger"></span>
@@ -208,7 +228,7 @@
                         <span asp-validation-for="DisqusShortname" class="text-danger"></span>
                     </div>
                     <input type="hidden" asp-for="NotificationEmailWarning" />
-                    <div class="form-group">
+                    <div class="form-group fixed-bottom">
                         <input type="submit" class="btn btn-primary" value="Save Settings" id="SaveSettings" />
                         <a class="btn btn-secondary" target="_blank" asp-action="ListInvoices" asp-controller="Invoice" asp-route-searchterm="@Model.SearchTerm">Invoices</a>
                         <a class="btn btn-secondary" target="_blank" asp-action="ViewCrowdfund" asp-controller="AppsPublic" asp-route-appId="@Model.AppId" id="ViewApp">View App</a>
