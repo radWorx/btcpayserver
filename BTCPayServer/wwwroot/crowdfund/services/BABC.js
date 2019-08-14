@@ -66,8 +66,6 @@
         var blob = new Blob(chunks, { type: 'audio/mpeg' });
         audio.src = URL.createObjectURL(blob);
         blob.name = GetCryptoPaymentData;
-
-        console.log("Your audio file" + "," + blob.name);
     };
     playseq();
     
@@ -123,7 +121,7 @@
         var element = document.getElementById("colorpadsModal");
         
         html2canvas(element, { backgroundColor: "null", imageTimeout: "0" }).then(canvas => {
-            //$("canvas").remove();
+            $("canvas").remove();
             element.appendChild(canvas);           
         });
         
