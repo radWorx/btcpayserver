@@ -128,8 +128,7 @@
                 <b-tooltip target="crowdfund-body-raised-amount" v-if="paymentStats && paymentStats.length > 0">
                     <ul class="p-0 text-uppercase">
                         <li v-for="stat of paymentStats" class="list-unstyled">
-
-                            {{stat.label}} <span v-if="stat.lightning" class="fa fa-bolt"></span> {{stat.value}}
+                            {{stat.label}} <span v-if="stat.lightning" class="fa fa-bolt"></span> {{stat.value.toFixed(srvModel.currencyData.divisibility)}}
                         </li>
                     </ul>
                 </b-tooltip>
@@ -241,7 +240,7 @@
                     <label class="form-check-label" for="cbSounds">
                         Sounds
                     </label>
-                </div> 
+                </div>
                 <div class="form-check mx-1" v-if="srvModel.animationsEnabled || colors">
                     <input class="form-check-input" type="checkbox" id="cbColors" v-model="colors">
                     <label class="form-check-label" for="cbColors">
@@ -348,14 +347,19 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer d-flex justify-content-between" v-if="perk.sold">
-                <span></span>
-                <span x>{{perk.sold}} Contributor{{perk.sold > 1? "s": ""}}</span>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between" v-if="perk.sold || perk.inventory != null">
+           
+            <span v-if="perk.inventory != null && perk.inventory > 0" class="text-center text-muted">{{perk.inventory}} left</span>
+            <span v-if="perk.inventory != null && perk.inventory <= 0" class="text-center text-muted">Sold out</span>
+           <span v-if="perk.sold" >{{perk.sold}} Contributor{{perk.sold > 1? "s": ""}}</span>
+        </div>
+    </form>
+</div> 
 </script>
 
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <script type="text/x-template" id="contribute-template">
     <div>
@@ -369,6 +373,3 @@
         </perks>
     </div>
 </script>
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
