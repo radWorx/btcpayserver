@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BTCPayServer.Data;
 using BTCPayServer.Models;
 using BTCPayServer.Models.ManageViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -105,7 +106,7 @@ namespace BTCPayServer.Controllers
             }
 
             // Strip spaces and hypens
-            var verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+            var verificationCode = model.Code.Replace(" ", string.Empty, StringComparison.OrdinalIgnoreCase).Replace("-", string.Empty, StringComparison.OrdinalIgnoreCase);
 
             var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
                 user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);

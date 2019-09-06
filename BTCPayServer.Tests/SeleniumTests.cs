@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 using OpenQA.Selenium.Interactions;
 using System.Linq;
 using NBitcoin;
+using System.Threading.Tasks;
 
 namespace BTCPayServer.Tests
 {
@@ -95,6 +96,27 @@ namespace BTCPayServer.Tests
             s.Driver.AssertNoError();
         }
         [Fact]
+        public async Task CanUseSSHService()
+        {
+            using (var s = SeleniumTester.Create())
+            {
+                s.Start();
+                var alice = s.RegisterNewUser(isAdmin: true);
+                s.Driver.Navigate().GoToUrl(s.Link("/server/services"));
+                Assert.Contains("server/services/ssh", s.Driver.PageSource);
+                using (var client = await s.Server.PayTester.GetService<BTCPayServer.Configuration.BTCPayServerOptions>().SSHSettings.ConnectAsync())
+                {
+                    var result = await client.RunBash("echo hello");
+                    Assert.Equal(string.Empty, result.Error);
+                    Assert.Equal("hello\n", result.Output);
+                    Assert.Equal(0, result.ExitStatus);
+                }
+                s.Driver.Navigate().GoToUrl(s.Link("/server/services/ssh"));
+                s.Driver.AssertNoError();
+            }
+        }
+
+        [Fact]
         public void CanUseDynamicDns()
         {
             using (var s = SeleniumTester.Create())
@@ -151,7 +173,7 @@ namespace BTCPayServer.Tests
             {
                 s.Start();
                 var alice = s.RegisterNewUser();
-                var store = s.CreateNewStore();
+                var store = s.CreateNewStore().storeName;
                 s.AddDerivationScheme();
                 s.Driver.AssertNoError();
                 Assert.Contains(store, s.Driver.PageSource);
@@ -201,7 +223,7 @@ namespace BTCPayServer.Tests
             {
                 s.Start();
                 s.RegisterNewUser();
-                var store = s.CreateNewStore();
+                var store = s.CreateNewStore().storeName;
                 s.AddDerivationScheme();
 
                 CreateInvoice(s, store);
@@ -236,11 +258,11 @@ namespace BTCPayServer.Tests
 
                 s.Driver.FindElement(By.Id("Apps")).Click();
                 s.Driver.FindElement(By.Id("CreateNewApp")).Click();
-                s.Driver.FindElement(By.Name("Name")).SendKeys("PoS" + store);
-                s.Driver.FindElement(By.CssSelector("select#SelectedAppType.form-control")).SendKeys("PointOfSale" + Keys.Enter);
-                s.Driver.FindElement(By.CssSelector("select#SelectedStore.form-control")).SendKeys(store + Keys.Enter);
+                s.Driver.FindElement(By.Name("Name")).SendKeys("PoS" + Guid.NewGuid());
+                s.Driver.FindElement(By.Id("SelectedAppType")).SendKeys("PointOfSale" + Keys.Enter);
+                s.Driver.FindElement(By.Id("SelectedStore")).SendKeys(store + Keys.Enter);
                 s.Driver.FindElement(By.Id("Create")).Click();
-                s.Driver.FindElement(By.CssSelector("input#EnableShoppingCart.form-check")).Click();
+                s.Driver.FindElement(By.Id("EnableShoppingCart")).Click();
                 s.Driver.FindElement(By.Id("SaveSettings")).ForceClick();
                 s.Driver.FindElement(By.Id("ViewApp")).ForceClick();
                 s.Driver.SwitchTo().Window(s.Driver.WindowHandles.Last());
@@ -261,15 +283,15 @@ namespace BTCPayServer.Tests
 
                 s.Driver.FindElement(By.Id("Apps")).Click();
                 s.Driver.FindElement(By.Id("CreateNewApp")).Click();
-                s.Driver.FindElement(By.Name("Name")).SendKeys("CF" + store);
-                s.Driver.FindElement(By.CssSelector("select#SelectedAppType.form-control")).SendKeys("Crowdfund" + Keys.Enter);
-                s.Driver.FindElement(By.CssSelector("select#SelectedStore.form-control")).SendKeys(store + Keys.Enter);
+                s.Driver.FindElement(By.Name("Name")).SendKeys("CF" + Guid.NewGuid());
+                s.Driver.FindElement(By.Id("SelectedAppType")).SendKeys("Crowdfund" + Keys.Enter);
+                s.Driver.FindElement(By.Id("SelectedStore")).SendKeys(store + Keys.Enter);
                 s.Driver.FindElement(By.Id("Create")).Click();
                 s.Driver.FindElement(By.Id("Title")).SendKeys("Kukkstarter");
                 s.Driver.FindElement(By.CssSelector("div.note-editable.card-block")).SendKeys("1BTC = 1BTC");
                 s.Driver.FindElement(By.Id("TargetCurrency")).SendKeys("JPY");
                 s.Driver.FindElement(By.Id("TargetAmount")).SendKeys("700");
-                s.Driver.FindElement(By.Id("SaveSettings")).Submit();
+                s.Driver.FindElement(By.Id("SaveSettings")).ForceClick();
                 s.Driver.FindElement(By.Id("ViewApp")).ForceClick();
                 s.Driver.SwitchTo().Window(s.Driver.WindowHandles.Last());
                 Assert.True(s.Driver.PageSource.Contains("Currently Active!"), "Unable to create CF");
@@ -292,7 +314,7 @@ namespace BTCPayServer.Tests
                 s.Driver.FindElement(By.Id("Title")).SendKeys("Pay123");
                 s.Driver.FindElement(By.Id("Amount")).SendKeys("700");
                 s.Driver.FindElement(By.Id("Currency")).SendKeys("BTC");
-                s.Driver.FindElement(By.Id("SaveButton")).Submit();
+                s.Driver.FindElement(By.Id("SaveButton")).ForceClick();
                 s.Driver.FindElement(By.Name("ViewAppButton")).SendKeys(Keys.Return);
                 s.Driver.SwitchTo().Window(s.Driver.WindowHandles.Last());
                 Assert.True(s.Driver.PageSource.Contains("Amount due"), "Unable to create Payment Request");
