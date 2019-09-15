@@ -84,6 +84,7 @@
 
                         <select asp-for="DefaultLang"
                                 class="cmblang reverse invisible"
+                                onkeypress="if(event.keyCode==13){ $(this).click();}"
                                 onchange="changeLanguage($(this).val())"
                                 asp-items="@langService.GetLanguages().Select((language) => new SelectListItem(language.DisplayName,language.Code, false))"></select>
 
@@ -211,12 +212,6 @@
             toggleLineItems: function() {
                 this.lineItemsExpanded ? $("line-items").slideUp() : $("line-items").slideDown();
                 this.lineItemsExpanded = !this.lineItemsExpanded;
-            },
-            numberFormatted: function(x) {
-                var rounded = Math.round(x);
-                var parts = rounded.toString().split(".");
-                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-                return parts.join(".");
             },
             openPaymentMethodDialog: function() {
                 var content = $("#vexPopupDialog").html();
