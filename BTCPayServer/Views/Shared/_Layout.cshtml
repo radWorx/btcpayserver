@@ -25,6 +25,7 @@
     @* CSS *@
     <link href="@this.Context.Request.GetRelativePathOrAbsolute(themeManager.BootstrapUri)" rel="stylesheet" />
     <link href="@this.Context.Request.GetRelativePathOrAbsolute(themeManager.CreativeStartUri)" rel="stylesheet" />
+    <link href="@this.Context.Request.GetRelativePathOrAbsolute(themeManager.ThemeUri)" rel="stylesheet" />
 
     <bundle name="wwwroot/bundles/main-bundle.min.css" />
 
@@ -104,7 +105,7 @@
             {
                 <div class="alert alert-danger alert-dismissible" style="position:absolute; top:75px;" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <span>Your access to BTCPay Server is over an unsecured network. If you are using the docker deployment method with NGINX and HTTPS is not available, you probably did not configure your DNS settings correctly. <br /> 
+                    <span>Your access to BTCPay Server is over an unsecured network. If you are using the docker deployment method with NGINX and HTTPS is not available, you probably did not configure your DNS settings correctly. <br />
                           We disabled the register and login link so you don't leak your credentials.</span>
                 </div>
             }
