@@ -56,8 +56,10 @@ namespace BTCPayServer.Services.Apps
                             {
                         data.GetValue(),
                         invoiceEvent.Payment.GetCryptoCode(),
-                        invoiceEvent.Payment.GetPaymentMethodId().PaymentType.ToString()
+                        invoiceEvent.Payment.GetPaymentMethodId().PaymentType.ToString(),
+                        invoiceEvent.Payment.GetCryptoPaymentData().GetPaymentId()
                             }, cancellationToken);
+                        ;
                     }
                     await InfoUpdated(appId);
                 }
