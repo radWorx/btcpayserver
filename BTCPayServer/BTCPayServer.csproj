@@ -208,6 +208,9 @@
 	  </Content>
     <Content Remove="Views\Server\EditGoogleCloudStorageStorageProvider.cshtml">
     </Content>
+    <Content Remove="wwwroot\crowdfund\services\BABC.js" />
+    <Content Remove="wwwroot\crowdfund\services\jquery.min.js" />
+    <Content Remove="wwwroot\crowdfund\services\tone.js" />
 	  <Content Update="Views\Wallets\_Nav.cshtml">
 	    <Pack>$(IncludeRazorContentInPack)</Pack>
 	  </Content>
