@@ -19,14 +19,6 @@
     var dest = actx.createMediaStreamDestination();
     var recorder = new MediaRecorder(dest.stream);
 
-
-    var pp = document.getElementById("playpads");
-    var gw = document.getElementById("getwallpaper");
-    var txid = document.getElementById("txidTBModal");
-
-    txid.value = GetCryptoPaymentData;
-    pp.disabled = false;
-    gw.disabled = false;
     synth.connect(dest);
     synth.toMaster();
     recorder.start();
@@ -149,8 +141,6 @@
     
     // BA --------------------------------------------------------------------------
     // BC --------------------------------------------------------------------------
-    pp.addEventListener('click', makeWallpaperModal);
-    gw.addEventListener('click', getWallpaper);
     function makeWallpaperModal() {
         $("canvas").remove();
         var payid = GetCryptoPaymentData;
@@ -411,17 +401,7 @@
     });
     // Babylon END ---------------------------------------------------------------------
 
-    document.querySelector('#closemodal').addEventListener('click', async () => {
-
-        //var xhttp = new XMLHttpRequest();
-        //xhttp.open("GET", "http://kyoob.local:5000/genesis", true);
-        //xhttp.send();
-        //recorder.start();
-        //playseq();
-        babc();
-        console.log('audio is ready');
-    });
-
+ 
     playseq();
     playcolorstr();
     }
