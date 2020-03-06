@@ -4,6 +4,7 @@
     var audio = document.querySelector("audio");
     var synth = new Tone.MembraneSynth().toMaster();
     var synth2 = new Tone.AMSynth().toMaster();
+
     //EFFECTS-----------------------------------------------------------
     //var pingPong = new Tone.PingPongDelay("16n", 0.2).toMaster();
     //var drum = new Tone.MembraneSynth().connect(pingPong);
@@ -11,7 +12,9 @@
     var Reverb = new Tone.Reverb("8n", 0.1).toMaster();
     var drum = new Tone.MembraneSynth().connect(Reverb);
 
-    //EFFECTS-----------------------------------------------------------    //AUDIO CONTEXT
+    //EFFECTS-----------------------------------------------------------
+
+    //AUDIO CONTEXT
     var actx = Tone.context;
     var dest = actx.createMediaStreamDestination();
     var recorder = new MediaRecorder(dest.stream);
@@ -75,7 +78,7 @@
     }
 
     function playstr() {
-        var s = slicestrg();
+        var s = slicestrg();        
         try {
             synth.triggerAttackRelease(s, "4n");
             synth2.triggerAttackRelease(s, "8n");
@@ -85,11 +88,11 @@
         catch (err) {
             //    //
         }
-
-
+            
+        
     }
 
-
+   
     function colorstr(cc) {
         //var s = blockinfostring.slice(0, 2);
         //var n = blockinfostring.slice(2, 4); 
@@ -113,7 +116,7 @@
         var s = nextslice();
         timeTime = 150;
         timeout = setTimeout(playseq, timeTime);
-
+        
         playBAC();
         if (s === "") {
             stoptimeout();
@@ -128,7 +131,7 @@
         playstr();
         if (s === "") {
             stoptimeout();
-
+            
         }
 
     }
@@ -142,8 +145,8 @@
         audio.src = URL.createObjectURL(blob);
         blob.name = GetCryptoPaymentData;
     };
-
-
+    
+    
     // BA --------------------------------------------------------------------------
     // BC --------------------------------------------------------------------------
     pp.addEventListener('click', makeWallpaperModal);
@@ -190,7 +193,6 @@
             synth.dispose();
         }
     }
-
     function getWallpaper() {
 
         var element = document.getElementById("colorpadsModal");
@@ -396,9 +398,9 @@
     engine = createDefaultEngine();
     if (!engine) throw 'engine should not be null.';
     scene = createScene();
-
+    
     engine.runRenderLoop(function () {
-        if (scene) {
+        if (scene) {          
             scene.render();
         }
     });
@@ -422,5 +424,5 @@
 
     playseq();
     playcolorstr();
+    }
 
-}
